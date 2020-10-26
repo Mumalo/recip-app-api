@@ -10,4 +10,4 @@ services:
 before_script: pip install docker-compose
 
 script:
-  - docker-compose run app python manage.py test #@TODO fix issue with EOF extra blank lines and add  && flake8
+  - docker-compose run app sh -c "flake8 && python manage.py test"

@@ -10,7 +10,6 @@ def sample_user(email='testuser@gmail.com', password='testpass'):
 
 
 class ModelTests(TestCase):
-
     def test_create_user_with_email_successful(self):
         """Test creating a new user with an email us successful"""
         email = 'someuser@gmail.com'
@@ -61,3 +60,13 @@ class ModelTests(TestCase):
             name='Cucumber'
         )
         self.assertEqual(str(ingredient), ingredient.name)
+
+    def test_recipe_str(self):
+        """Test the recipe string representation"""
+        recipe = models.Recipe.objects.create(
+            user=sample_user(),
+            title='Steak and Mushroom sauce',
+            time_in_minutes=5,
+            price=5.00,
+        )
+        self.assertEqual(str(recipe), recipe.title)

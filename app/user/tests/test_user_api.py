@@ -88,7 +88,8 @@ class PublicUserApiTests(TestCase):
 
     def test_create_token_missing_fields(self):
         """Test that email and password are required"""
-        token_res = self.client.post(TOKEN_URL, {'email': 'one', 'password': ''})
+        token_res = self.client.post(TOKEN_URL,
+                                     {'email': 'one', 'password': ''})
         self.assertNotIn('token', token_res.data)
         self.assertEqual(token_res.status_code, status.HTTP_400_BAD_REQUEST)
 
@@ -103,7 +104,9 @@ class PrivateUserApiTest(TestCase):
     """Test API requests that require authentication"""
 
     def setUp(self):
-        self.user = create_user(email='testuser@gmail.com', password='testpass', name='Test name')
+        self.user = create_user(email='testuser@gmail.com',
+                                password='testpass',
+                                name='Test name')
         self.client = APIClient()
         self.client.force_authenticate(user=self.user)
 
