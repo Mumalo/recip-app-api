@@ -103,7 +103,7 @@ class PrivateUserApiTest(TestCase):
     """Test API requests that require authentication"""
 
     def setUp(self):
-        self.user = create_user(email='testuser@gmail.com', password='testpass')
+        self.user = create_user(email='testuser@gmail.com', password='testpass', name='Test name')
         self.client = APIClient()
         self.client.force_authenticate(user=self.user)
 
@@ -127,11 +127,11 @@ class PrivateUserApiTest(TestCase):
         """Test updating the user profile for authenticated user"""
         payload = {
             'name': 'new name',
-            'password': 'passs123'
+            'password': 'passs123',
         }
-        res = self.client.post(ME_URL, payload)
+        res = self.client.patch(ME_URL, payload)
 
         self.user.refresh_from_db()
         self.assertEqual(self.user.name, payload['name'])
-        self.assertEqual(self.user.check_password(payload['password']))
+        self.assertTrue(self.user.check_password(payload['password']))
         self.assertEqual(res.status_code, status.HTTP_200_OK)
