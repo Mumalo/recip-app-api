@@ -5,10 +5,12 @@ services:
       context: .
     volumes:
       - ./app:/app
+    env_file:
+      - .env
     command: >
       sh -c "python manage.py wait_for_db &&
              python manage.py migrate &&
-             python manage.py runserver 0.0.0.0:8000"
+             gunicorn app.wsgi:application --bind 0.0.0.0:8000"
     ports:
       - "8000:8000"
     environment:
@@ -20,7 +22,5 @@ services:
       - db
   db:
     image: postgres:10-alpine
-    environment:
-      - POSTGRES_DB=app
-      - POSTGRES_USER=postgres #should be hidden for production
-      - POSTGRES_PASSWORD=supersecretpassword #should be hidden in environment in production
+    env_file:
+      - .env-db
