@@ -25,7 +25,7 @@ class BaseRecipeAttrViewSet(viewsets.GenericViewSet,
             queryset = queryset.filter(recipe__isnull=False)
         return queryset.filter(user=self.request.user).order_by('-name')
 
-    def perform_create(self, serializer: BaseSerializer):
+    def perform_create(self, serializer):
         return serializer.save(user=self.request.user)
 
 
@@ -76,7 +76,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
             return serializers.RecipeImageSerializer
         return self.serializer_class
 
-    def perform_create(self, serializer: BaseSerializer):
+    def perform_create(self, serializer):
         """Create a new recipe"""
         serializer.save(user=self.request.user)
 
